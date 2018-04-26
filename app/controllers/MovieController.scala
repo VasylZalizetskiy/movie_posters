@@ -21,9 +21,7 @@ import scala.concurrent.ExecutionContext
 
 @Singleton
 class MovieController @Inject()(silh: Silhouette[JwtEnv], movies: MovieService)(implicit exec: ExecutionContext) extends InjectedController {
-  //val editMoviePermission = WithPermission("edit:movies")
-  val editMoviePermission = WithPermission("users:read")
-
+  val editMoviePermission = WithPermission("edit:movies")
 
   def save = silh.SecuredAction(editMoviePermission).async(parse.json) { implicit request =>
     val user = request.identity

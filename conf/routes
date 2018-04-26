@@ -67,7 +67,7 @@ POST          /register                 @controllers.ApplicationController.regis
 # tags:
 #   - movies
 # security:
-#   - api_key: ['users:read']
+#   - api_key: ['edit:movies']
 # parameters:
 #   - name: body
 #     required: true
@@ -84,7 +84,7 @@ POST          /movies                   @controllers.MovieController.save
 # tags:
 #   - movies
 # security:
-#   - api_key: ['users:read']
+#   - api_key: ['edit:movies']
 # parameters:
 #   - name: body
 #     required: true
@@ -129,7 +129,7 @@ GET           /movies                   @controllers.MovieController.list
 # tags:
 #   - movies
 # security:
-#   - api_key: ['users:read']
+#   - api_key: ['edit:movies']
 # parameters:
 #   - name: title
 #     type: string
