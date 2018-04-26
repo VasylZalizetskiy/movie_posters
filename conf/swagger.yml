@@ -85,34 +85,6 @@
           description: Authentication token, that has to be put into 'X-Auth-Token' HTTP header
       required:
         - token
-    oauthAuthorize:
-      type: object
-      required:
-        - clientId
-        - accountId
-        - user
-        - scope
-        - url
-        - responseType
-      properties:
-        clientId:
-          type: integer
-          description: Client identifier
-        accountId:
-          type: integer
-          description: Account identifier
-        user:
-          type: string
-          description: User identifier
-        scope:
-          type: string
-          description: Scope
-        url:
-          type: string
-          description: URL
-        responseType:
-          type: string
-          description: Response type code or token
     roleCreate:
        type: object
        properties:
@@ -157,33 +129,6 @@
         created:
           type: number
           description: User creation timestamp
-    createBranch:
-      type: object
-      required:
-       - name
-      properties:
-        name:
-          type: string
-          description: Branch Name
-        description:
-          type: string
-        parent:
-          type: string
-          description: Parent branch Id
-    restriction:
-      type: object
-      required:
-              - name
-              - pattern
-      properties:
-        name:
-          type: string
-          description: Restriction name
-        description:
-          type: string
-        pattern:
-            type: string
-            description: Restriction pattern
   securityDefinitions:
     api_key:
       type: apiKey
