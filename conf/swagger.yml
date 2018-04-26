@@ -78,57 +78,6 @@
           description: Password, can be ommited if only OTP authorization is used
       required:
         - login
-    tokenResponse:
-      properties:
-        token:
-          type: string
-          description: Authentication token, that has to be put into 'X-Auth-Token' HTTP header
-      required:
-        - token
-    roleCreate:
-       type: object
-       properties:
-          role:
-            type: string
-            description: user flag
-          permissions:
-            type: array
-            description: user permission array
-            items:
-              type: string
-    rolePermissions:
-       type: object
-       properties:
-          permissions:
-            type: array
-            description: user permission status
-            items:
-              type: string
-    user:
-      type: object
-      properties:
-        uuid:
-          type: string
-          description: User unique identifier
-        email:
-          type: string
-          required: false
-          description: User email
-        phone:
-          type: string
-          required: false
-          description: User phone
-        firstName:
-          type: string
-          required: false
-          description: User first name
-        lastName:
-          type: string
-          required: false
-          description: User last name
-        created:
-          type: number
-          description: User creation timestamp
   securityDefinitions:
     api_key:
       type: apiKey
