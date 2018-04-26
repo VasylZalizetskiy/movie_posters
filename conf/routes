@@ -1,0 +1,175 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# https://www.playframework.com/documentation/latest/ScalaRouting
+# ~~~~
+
+###
+# summary: Performs user login, returns authorization token
+# tags:
+#   - users
+# security: []
+# responses:
+#   200:
+#     description: Token response
+#     schema:
+#       type: object
+#       properties:
+#         token:
+#           type: string
+#           description: Authorization token that has to be placed into `X-Auth-Token` header
+#           example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9eyJzdWIiOiIxLU0zWDYrMUeXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9eyJzdWIiOiIxLU0zWDYrMUeXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9eyJzdWIiOiIxLU0zWDYrMU
+#   400:
+#     description: Wrong request format
+#     schema:
+#       $ref: '#/definitions/errorResponse'
+#   403:
+#     description: Authorization data is invalid or user not confirmed
+#     schema:
+#       $ref: '#/definitions/errorResponse'
+#   404:
+#     description: Specified user is not found
+#     schema:
+#       $ref: '#/definitions/errorResponse'
+#   428:
+#     description: Password field is not specified and sms authorization is on. Will send sms code, which has to be provided on `POST /users/confirm` endpoint, which in turn will return the token
+#     schema:
+#       $ref: '#/definitions/errorResponse'
+# parameters:
+#   - name: body
+#     required: true
+#     schema:
+#      $ref: '#/definitions/loginCredentials'
+###
+POST          /login                    @controllers.ApplicationController.login
+
+###
+# summary: Register a new  user
+# tags:
+#   - users
+# security: []
+# responses:
+#   200:
+#     description: User information
+#   409:
+#     description: User already exists
+#   428:
+#     description: Login(email/phone) confirmation required for next step of user registration
+# parameters:
+#   - name: body
+#     required: true
+#     schema:
+#      $ref: '#/definitions/forms.OpenFormData'
+###
+POST          /register                 @controllers.ApplicationController.register
+
+###
+# summary: Creates movie
+# tags:
+#   - movies
+# security:
+#   - api_key: ['users:read']
+# parameters:
+#   - name: body
+#     required: true
+#     schema:
+#      $ref: '#/definitions/models.Movie'
+# responses:
+#   200:
+#       description: successfully created a movie
+###
+POST          /movies                   @controllers.MovieController.save
+
+###
+# summary: Update movie
+# tags:
+#   - movies
+# security:
+#   - api_key: ['users:read']
+# parameters:
+#   - name: body
+#     required: true
+#     schema:
+#      $ref: '#/definitions/models.Movie'
+# responses:
+#   200:
+#     description: successfully updated a movie
+###
+PUT           /movies                   @controllers.MovieController.update
+
+###
+# summary: Obtains movie information
+# tags:
+#   - movies
+# security: []
+# parameters:
+#   - name: title
+#     type: string
+#     in: path
+#     required: true
+#     description: Movie name
+# responses:
+#   200:
+#       description: Movie information
+###
+GET           /movies/:title            @controllers.MovieController.get(title: String)
+
+###
+# summary: Lists all movies
+# tags:
+#   - movies
+# security: []
+# responses:
+#   200:
+#       description: Movie list
+###
+GET           /movies                   @controllers.MovieController.list
+
+###
+# summary: Removes movie
+# tags:
+#   - movies
+# security:
+#   - api_key: ['users:read']
+# parameters:
+#   - name: title
+#     type: string
+#     in: path
+#     required: true
+#     description: Movie name
+# responses:
+#   204:
+#       description: successfully removed a movie
+###
+DELETE        /movies/:title            @controllers.MovieController.remove(title: String)
+
+###
+# summary: Swagger definition
+# description: for swagger UI to consume
+###
+GET           /docs/api.json            @controllers.swagger.ApiSpecs.specs
+
+###
+# summary: Swagger HTML documentation
+# description: swagger UI
+###
+GET           /docs/api.html            @controllers.swagger.ApiSpecs.docsIndex
+
+### NoDocs ###
+GET           /docs/*file               @controllers.swagger.ApiSpecs.docsResources(file)
+
+# Map static resources from the /public folder to the /assets URL path
+
+### NoDocs ###
+GET           /api/assets/*file         controllers.Assets.at(path="/public", file)
+### NoDocs ###
+GET           /assets/*file             controllers.Assets.at(path="/public", file)
+
+### NoDocs ###
+GET           /_requirejs               org.webjars.play.RequireJS.setup()
+
+### NoDocs ###
+GET           /webjars/*file            org.webjars.play.WebJarAssets.at(file)
+
+### NoDocs ###
+GET           /api/webjars/*file        org.webjars.play.WebJarAssets.at(file)
+

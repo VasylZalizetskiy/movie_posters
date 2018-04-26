@@ -1,0 +1,194 @@
+---
+  swagger: "2.0"
+  info:
+    title: "Movie Posters API"
+    version: "1.0.0"
+  consumes:
+    - application/json
+  produces:
+    - application/json
+  definitions:
+    errorResponse:
+      properties:
+        error:
+          type: string
+          description: Error code
+          enum:
+            - INTERNAL_SERVER_ERROR
+            - NOT_ENOUGH_MONEY
+            - ACCOUNT_NOT_FOUND
+            - INVALID_AMOUNT
+            - TRANSACTION_NOT_FOUND
+            - USER_NOT_FOUND
+            - INVALID_TRANSACTION_DIRECTION
+            - INVALID_TRANSACTION_ORDER_FIELD
+            - INVALID_ORDER_TYPE
+            - INVALID_REQUEST
+            - GATEWAY_NOT_FOUND
+            - GATEWAY_SERVER_ERROR
+            - INVALID_GATEWAY_CONFIGURATION
+            - INVALID_TRANSACTION_ACCOUNT
+            - APPLICATION_NOT_FOUND
+            - TEMPORARY_TOKEN_NOT_FOUND
+            - TOKEN_CLAIMS_NOT_FOUND
+            - INVALID_TOKEN_CLAIMS
+            - EXTERNAL_ACCOUNT_INFO_NOT_FOUND
+            - UNKNOWN_SERVICE
+            - INVALID_ACCOUNT_CURRENCY
+            - INVALID_PAYMENT_REQUISITES
+            - GATEWAY_SERVICE_EXISTS
+            - GATEWAY_SERVICE_NOT_FOUND
+            - ACCOUNTS_ARE_SAME
+            - TEMPLATE_NOT_FOUND
+            - WORKFLOW_NOT_FOUND
+            - INVALID_APPLICATION_SECRET
+            - INVALID_TOKEN
+            - TOKEN_NOT_FOUND
+            - IDENTIFIER_REQUIRED
+            - BLOCKED_USER
+            - USER_NOT_CONFIRMED
+            - INVALID_USER_CREDENTIALS
+            - USER_ALREADY_EXISTS
+            - CONFIRM_CODE_NOT_FOUND
+            - ACCESS_DENIED
+            - INVALID_IDENTIFIER
+            - USER_IDENTIFIER_EXISTS
+            - INVALID_PASSWORD
+            - NEWS_NOT_FOUND
+            - CURRENCY_RATE_NOT_FOUND
+            - EXTERNAL_SERVICE_UNAVAILABLE
+            - CONFIRMATION_REQUIRED
+            - ENTITY_NOT_FOUND
+            - TRANSACTION_CANT_BE_CANCELED
+        message:
+          type: string
+          description: Error message description
+        timestamp:
+          type: integer
+          description: Request timestamp
+      required:
+        - login
+    loginCredentials:
+      properties:
+        login:
+          type: string
+          description: Users phone number in international format or email
+        password:
+          type: string
+          description: Password, can be ommited if only OTP authorization is used
+      required:
+        - login
+    tokenResponse:
+      properties:
+        token:
+          type: string
+          description: Authentication token, that has to be put into 'X-Auth-Token' HTTP header
+      required:
+        - token
+    oauthAuthorize:
+      type: object
+      required:
+        - clientId
+        - accountId
+        - user
+        - scope
+        - url
+        - responseType
+      properties:
+        clientId:
+          type: integer
+          description: Client identifier
+        accountId:
+          type: integer
+          description: Account identifier
+        user:
+          type: string
+          description: User identifier
+        scope:
+          type: string
+          description: Scope
+        url:
+          type: string
+          description: URL
+        responseType:
+          type: string
+          description: Response type code or token
+    roleCreate:
+       type: object
+       properties:
+          role:
+            type: string
+            description: user flag
+          permissions:
+            type: array
+            description: user permission array
+            items:
+              type: string
+    rolePermissions:
+       type: object
+       properties:
+          permissions:
+            type: array
+            description: user permission status
+            items:
+              type: string
+    user:
+      type: object
+      properties:
+        uuid:
+          type: string
+          description: User unique identifier
+        email:
+          type: string
+          required: false
+          description: User email
+        phone:
+          type: string
+          required: false
+          description: User phone
+        firstName:
+          type: string
+          required: false
+          description: User first name
+        lastName:
+          type: string
+          required: false
+          description: User last name
+        created:
+          type: number
+          description: User creation timestamp
+    createBranch:
+      type: object
+      required:
+       - name
+      properties:
+        name:
+          type: string
+          description: Branch Name
+        description:
+          type: string
+        parent:
+          type: string
+          description: Parent branch Id
+    restriction:
+      type: object
+      required:
+              - name
+              - pattern
+      properties:
+        name:
+          type: string
+          description: Restriction name
+        description:
+          type: string
+        pattern:
+            type: string
+            description: Restriction pattern
+  securityDefinitions:
+    api_key:
+      type: apiKey
+      description: Authorization Token
+      name: X-Auth-Token
+      in: header
+  security:
+    - api_key: []
